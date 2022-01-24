@@ -1,0 +1,27 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+	<master auto="start"/>
+	<node pkg="tars_navigation" type="global_planning_node" name="global_planning_node" output="screen">
+		<param name="robot_id" value="09"/>
+		<param name="robot_radius" value="0.2"/>
+		<param name="odom_topic" value="/tars/09/odom"/>
+		<param name="goal_topic" value="/move_base_simple/goal"/>
+		<param name="map_topic" value="/map"/>
+		<param name="nav_map_topic" value="/map2"/>
+		<param name="path_topic" value="/tars/visualization/09/path"/>
+		<param name="init_navigation_service" value="/tars/09/init_navigation"/>
+		<param name="end_navigation_service" value="/tars/09/end_navigation"/>
+		<param name="local_goal_topic" value = "/tars/09/goal"/>
+	</node>
+
+	<node pkg="tars_sfm_planning" type="tars_sfm_planning_node" name="tars_sfm_planning_node">
+		<param name="robot_id" value="09"/>
+		<param name="robot_radius" value="0.2"/>
+		<param name="robot_max_vel" value="0.6"/>
+		<param name="tracking_topic" value="/tars/09/agents_tracking"/>
+		<param name="cmd_vel_topic" value="/tars/09/cmd_vel"/>
+		<param name="goal_topic" value="/tars/09/goal"/>
+	</node>	
+	
+	
+</launch>
