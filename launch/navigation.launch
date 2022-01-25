@@ -1,9 +1,13 @@
 <!-- -*- mode: XML -*- -->
 <launch>
 	<master auto="start"/>
+
+	<include file="$(find tars)/launch/ccia_h.launch"/>
+
 	<node pkg="tars_navigation" type="global_planning_node" name="global_planning_node" output="screen">
 		<param name="robot_id" value="09"/>
 		<param name="robot_radius" value="0.2"/>
+		<param name="rrt_star" value="true"/>
 		<param name="odom_topic" value="/tars/09/odom"/>
 		<param name="goal_topic" value="/move_base_simple/goal"/>
 		<param name="map_topic" value="/map"/>

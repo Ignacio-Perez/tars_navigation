@@ -51,9 +51,10 @@ struct Robot
 	utils::Vector2d goal;
 	bool goalReceived;
 	std::list<utils::Vector2d> path;
-	utils::Vector2d init;
+	utils::Vector2d init; // Posicion inicial de la ruta
 	RRT rrt; // RRT
 	ros::Publisher goalPublisher;
+	bool rrt_star; // usamos rrt*  o rrt?
 } robot;
 
 /***************************/
@@ -140,6 +141,9 @@ int main(int argc, char** argv) {
 	// servicio para detener la navegacion
 	std::string end_navigation_service;
 	pn.param<std::string>("end_navigation_service",end_navigation_service,"/tars/09/end_navigation");
+
+	// Usamos rrt*
+	pn.param<bool>("rrt_star",robot.rrt_star,true);
 
 	/****************************/
 	/* INICIALIZACION DEL ROBOT */
@@ -236,7 +240,7 @@ void odomReceivedCallback(const nav_msgs::Odometry::ConstPtr& msg) {
 			robot.state = COMPUTING_RRT;
 			robot.init = robot.position;
 			ROS_INFO("State: COMPUTING_RRT");
-			robot.rrt.init(robot.position,robot.radius);
+			robot.rrt.init(robot.position,robot.radius, robot.rrt_star);
 		} 
     } catch (tf2::TransformException &ex) {
 		
